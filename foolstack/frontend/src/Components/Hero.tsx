@@ -89,6 +89,12 @@ const Hero = () => {
                 </h2>
                 <hr />
                 <Link
+                  to={`/profile/${user?.userId}`}
+                  className="mt-2 p-2 rounded-sm text-left text-xs hover:bg-[#6494edd5]"
+                >
+                  Your Profile
+                </Link>
+                <Link
                   to="/login"
                   onClick={() => {
                     setUser(null);
@@ -111,6 +117,7 @@ const Hero = () => {
           </div>
         </div>
       </nav>
+
       <section className="z-0 w-full flex items-center justify-between mt-4">
         <h1 className="font-gothic text-7xl text-heading-text [word-spacing:0.75rem]">
           BENEATH

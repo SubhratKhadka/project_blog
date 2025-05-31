@@ -1,6 +1,12 @@
 import { QueryResult } from "pg";
 import { Database } from "./db.config";
-import { CreateBlogI, IndividualBlogI, RawBlogI, userI, VoteType } from "../src/interfaces";
+import {
+  CreateBlogI,
+  IndividualBlogI,
+  RawBlogI,
+  userI,
+  VoteType,
+} from "../src/interfaces";
 // gettin db pool
 const pool = Database.getInstance().dbConnection;
 
@@ -23,9 +29,49 @@ const createBlogExec = async (
   return result;
 };
 
+const getAllTrendingBlogsExec = async (): Promise<{
+  trending: RawBlogI[];
+}> => {
+  const getAllTrendingBlogsQuery = `
+  SELECT * FROM blogs
+  ORDER BY upvotes DESC
+  `;
+
+  try {
+    const allTrendingResult = await pool.query(getAllTrendingBlogsQuery);
+
+    return {
+      trending: allTrendingResult.rows,
+    };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+const getAllLatestBlogsExec = async (): Promise<{
+  latest: RawBlogI[];
+}> => {
+  const getAllLatestBlogsQuery = `
+  SELECT * FROM blogs
+  ORDER BY created_at DESC
+  `;
+
+  try {
+    const allLatestResult = await pool.query(getAllLatestBlogsQuery);
+
+    return {
+      latest: allLatestResult.rows,
+    };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 const getTrendingAndLatestBlogExec = async (): Promise<{
-	trending: RawBlogI[],
-	latest: RawBlogI[]
+  trending: RawBlogI[];
+  latest: RawBlogI[];
 }> => {
   try {
     const trendingQuery = `
@@ -197,6 +243,21 @@ const getIndividualBlogExec = async (blogId: string, userId: string) => {
   }
 };
 
+const getAllUserBlogsById = async (userId: string): Promise<RawBlogI[]> => {
+  try {
+    const result: QueryResult<RawBlogI> = await pool.query(`
+      SELECT * FROM blogs
+      WHERE author_id = $1
+      ORDER BY created_at DESC
+      `, [userId])
+
+      return result.rows
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
 const createCommentExec = async (
   commenterId: string,
   blogId: string,
@@ -308,10 +369,14 @@ const updateVoteExec = async (
   }
 };
 
+
 export {
   createBlogExec,
   getIndividualBlogExec,
   createCommentExec,
   updateVoteExec,
+  getAllLatestBlogsExec,
+  getAllTrendingBlogsExec,
   getTrendingAndLatestBlogExec,
+  getAllUserBlogsById
 };

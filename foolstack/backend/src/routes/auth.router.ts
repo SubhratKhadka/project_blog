@@ -4,7 +4,7 @@ import {
 	getUserController,
 	googleLoginController,
 	updateLinksController,
-} from "../controllers/authController.controller";
+} from "../controllers/auth.controller";
 
 const router = Router();
 

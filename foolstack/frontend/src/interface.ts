@@ -79,6 +79,12 @@ interface RawBlogI {
   downvotes: number;
 }
 
+type LatestOrTrendingRes =
+  | {
+      latest: RawBlogI;
+    }
+  | { trending: RawBlogI };
+
 type VoteType = "upvote" | "downvote" | null;
 
 export type {
@@ -87,5 +93,6 @@ export type {
   UserDataRes,
   IndividualBlogI,
   VoteType,
-  RawBlogI
+  RawBlogI,
+  LatestOrTrendingRes
 };

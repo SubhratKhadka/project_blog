@@ -7,7 +7,7 @@ import {
 	getTrendingAndLatestBlog,
 	getTrendingBlogs,
 	updateVote,
-} from "../controllers/blogsController.controller";
+} from "../controllers/blogs.controller";
 import upload from "../../middleware/upload";
 
 const router = Router();
@@ -16,7 +16,7 @@ const router = Router();
  * @current_route   /blogs
  */
 
-router.get("/", getTrendingAndLatestBlog);
+router.get("/", getTrendingAndLatestBlog); // 8 trending and 10 latest
 router.post("/", upload.single("blog_cover_img") ,createBlog);
 router.get("/latest", getLatestBlogs);
 router.get("/trending", getTrendingBlogs);

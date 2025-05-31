@@ -10,6 +10,8 @@ import {uploadBlogCoverImgFile} from "../../db/photoUpload";
 import {
 	createBlogExec,
 	createCommentExec,
+	getAllLatestBlogsExec,
+	getAllTrendingBlogsExec,
 	getIndividualBlogExec,
 	getTrendingAndLatestBlogExec,
 	updateVoteExec,
@@ -53,16 +55,29 @@ export const createBlog = async (
 	}
 };
 
-export const getLatestBlogs = async (req: Request, res: Response) => {
+export const getLatestBlogs = async (req: Request, res: Response<ServerResponse<{
+	latest: RawBlogI[]
+}>>) => {
+	const latestBlogs = await getAllLatestBlogsExec();
+
 	res.json({
-		message: "latest",
+		status: 200,
+		message: "All Latest Blogs have been fetched",
+		data: latestBlogs
 	});
 };
-export const getTrendingBlogs = async (req: Request, res: Response) => {
+export const getTrendingBlogs = async (req: Request, res: Response<ServerResponse<{
+	trending: RawBlogI[]
+}>>) => {
+	const trendingBlogs = await getAllTrendingBlogsExec();
+
 	res.json({
-		message: "trendings",
+		status: 200,
+		message: "All Trending Blogs have been fetched",
+		data: trendingBlogs
 	});
 };
+
 
 export const getTrendingAndLatestBlog = async(req: Request, res: Response<ServerResponse<{
 	trending: RawBlogI[],

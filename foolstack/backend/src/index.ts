@@ -20,6 +20,7 @@ import {viewAllDataFromDb} from "../db/dbDataView";
 // routers
 import blogRouter from "./routes/blogs.router";
 import authRouter from "./routes/auth.router";
+import userRouter from "./routes/user.router";
 
 const app = express();
 const PORT = 8080;
@@ -40,6 +41,8 @@ app.get("/", (_req, res) => {
 app.use("/auth", authRouter);
 
 app.use("/blogs", blogRouter);
+
+app.use('/user', userRouter)
 
 app.listen(PORT, () => {
 	console.log(`Server is running on http://localhost:${PORT}`);
