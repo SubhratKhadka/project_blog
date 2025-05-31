@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { getIndividualBlog, postComment, updateVote } from "../apis/blogApis";
 import type { IndividualBlogI, VoteType } from "../interface";
 import Loading from "./UI/Loading";
@@ -31,9 +31,33 @@ const IndivialBlog = () => {
       if (blog?.id && user?.userId) {
         const res = await postComment(user.userId, blog.id, comment);
         console.log(res);
+        if (res.data.data) {
+          const { comment: newComment } = res.data.data;
 
-        alert(res.data.message);
-        setComment("");
+          alert(res.data.message);
+          setComment("");
+          setBlog((prev) => {
+            if (prev)
+              return {
+                ...prev,
+                comments: [
+                  {
+                    id: newComment.id,
+                    comment: newComment.comment,
+                    created_at: newComment.created_at,
+                    replies: null,
+                    user: {
+                      id: user.userId,
+                      name: user.username,
+                      image: user.userImgSrc,
+                    },
+                  },
+                  ...(prev.comments || []),
+                ],
+              };
+            else null;
+          });
+        }
       }
     } catch (error) {
       console.log(error);
@@ -90,44 +114,6 @@ const IndivialBlog = () => {
 
   // console.log(blogId);
 
-  // useEffect(() => {
-  // 	const fetchFunction = async () => {
-  // 		try {
-  // 			const res = await getIndividualBlog(blogId!);
-  // 			const {data: blogData} = res.data;
-
-  // 			console.log(blogData);
-
-  // 			// for testing loader
-  // 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // 			await new Promise<void>((resolve, _) => {
-  // 				setTimeout(() => {
-  // 					resolve();
-  // 				}, 2000);
-  // 			});
-
-  // 			if (blogData) {
-  // 				setBlog(blogData);
-  // 				console.log(blogData)
-  // 			} else {
-  // 				alert("No Blog Data Found");
-  // 			}
-  // 		} catch (error) {
-  // 			console.log(error);
-  // 		} finally {
-  // 			setLoading(false);
-  // 		}
-  // 	};
-
-  // 	fetchFunction();
-
-  // 	return () => {
-  // 		if (descriptionRef.current && blog) {
-  // 			descriptionRef.current.innerHTML = blog.description;
-  // 		}
-  // 	};
-  // }, [blog,blogId]);
-
   useEffect(() => {
     const fetchFunction = async () => {
       try {
@@ -164,7 +150,7 @@ const IndivialBlog = () => {
     };
 
     fetchFunction();
-  }, [blogId]); // 👈 Only depends on blogId
+  }, [blogId]);
 
   if (loading) return <Loading />;
   else if (!loading && !blog) return "Blog Not Found";
@@ -176,7 +162,16 @@ const IndivialBlog = () => {
           <h1 className="font-raleway text-3xl font-bold text-heading-text leading-8 mb-1">
             {blog?.title} <br />
           </h1>
-          <h2 className="font-medium  text-dim-text">By {blog?.author_name}</h2>
+          <h2 className="font-medium">
+            By{" "}
+            <Link
+              to={`/profile/${blog?.author_id}`}
+              className="text-cornflowerblue"
+            >
+              {" "}
+              {blog?.author_name}
+            </Link>
+          </h2>
           <time className=" text-sm font-medium">
             {" "}
             At{" "}
@@ -280,7 +275,7 @@ const IndivialBlog = () => {
               Other Comments
             </h2>
           </div>
-          <div className=" flex  items-center gap-5 h-52">
+          <div className=" flex  items-center flex-wrap gap-5 h-52">
             {blog.comments.map((commentObj, idx) =>
               idx != 0 ? (
                 <Comment key={commentObj.id} commentObj={commentObj} />

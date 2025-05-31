@@ -1,6 +1,7 @@
 import { QueryResult } from "pg";
 import { Database } from "./db.config";
 import {
+  Comment,
   CreateBlogI,
   IndividualBlogI,
   RawBlogI,
@@ -262,9 +263,9 @@ const createCommentExec = async (
   commenterId: string,
   blogId: string,
   comment: string
-) => {
+) : Promise<Comment>=> {
   try {
-    const result: QueryResult<{ id: string }> = await pool.query(
+    const result: QueryResult<Comment> = await pool.query(
       `
 			INSERT INTO comments (blog_id, user_id, comment)
 			VALUES ($1, $2, $3)
@@ -274,10 +275,8 @@ const createCommentExec = async (
 
     // console.log(result)
 
-    const commentId = result.rows[0].id;
-    // console.log(commentId);
 
-    return commentId;
+    return result.rows[0];
   } catch (error) {
     console.log(error);
     throw error;

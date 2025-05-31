@@ -30,7 +30,7 @@ const Comment = ({commentObj}: {commentObj: CommentI}) => {
 						className="max-h-[3rem] rounded-full justify-self-center"
 					/>
 
-					<div className="text-lg font-semibold mb-2 text-dim-text justify-self-center tracking-tight">
+					<div className="text-sm font-semibold mb-2 text-dim-text justify-self-center tracking-tight">
 						- {commentObj.user?.name}
 					</div>
 				</div>

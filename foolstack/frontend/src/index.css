@@ -36,7 +36,8 @@
 	}
 
 	.tools {
-		@apply w-7  p-1.5  rounded-sm bg-gray-300 hover:bg-[#6495ED] flex justify-center items-center cursor-pointer;
+		/* hover:bg-[#6495ED]  */
+		@apply w-7  p-1.5  rounded-sm hover:scale-[1.2] bg-gray-300 flex justify-center items-center cursor-pointer;
 	}
 	.m-d-buttons {
 		@apply w-full h-8 p-2 rounded-sm text-black  text-xs

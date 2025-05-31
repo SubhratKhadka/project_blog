@@ -1,6 +1,7 @@
 import type { AxiosResponse } from "axios";
 import { api } from "./axiosSetup";
 import type {
+	CommentI,
   IndividualBlogI,
   RawBlogI,
   ServerResponse,
@@ -31,7 +32,7 @@ const postComment = async (
   userId: string,
   blogId: string,
   comment: string
-): Promise<AxiosResponse<ServerResponse<{ commentId: string }>>> => {
+): Promise<AxiosResponse<ServerResponse<{ comment: CommentI }>>> => {
   return await api.post(`/blogs/${blogId}/comment`, {
     commenterId: userId,
     comment,

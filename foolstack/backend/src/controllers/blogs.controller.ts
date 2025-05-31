@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {
+	Comment,
 	CreateBlogI,
 	IndividualBlogI,
 	RawBlogI,
@@ -126,19 +127,19 @@ export const getIndividualBlog = async (
 
 export const createComment = async (
 	req: Request<{blogId: string}, {}, {commenterId: string; comment: string}>,
-	res: Response<ServerResponse<{commentId: string}>>
+	res: Response<ServerResponse<{comment: Comment}>>
 ) => {
 	const {blogId} = req.params;
 	const {comment, commenterId} = req.body;
 
 	try {
-		const commentId = await createCommentExec(commenterId, blogId, comment);
+		const commentData = await createCommentExec(commenterId, blogId, comment);
 
 		res.json({
 			status: 200,
 			message: "Comment Created Successfully",
 			data: {
-				commentId: commentId,
+				comment: commentData
 			},
 		});
 	} catch (error) {

@@ -68,7 +68,7 @@ type Reply = {
 	replier: UserInfo;
 };
 
-type Comment = {
+export type Comment = {
 	id: string | null;
 	comment: string | null;
 	created_at: string | null; // or Date

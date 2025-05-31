@@ -27,20 +27,6 @@ const VeryRecentComment = ({commentObj}: {commentObj: CommentI}) => {
 					<div className="w-full text-medium max-h-20 overflow-y-auto pr-2">
 						<p className="whitespace-pre-wrap pb-5">
 							{comment}
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-							asperiores voluptates, rerum quae libero, porro quas aperiam nobis
-							distinctio iusto at saepe. Sequi pariatur veritatis minima
-							placeat, soluta ut aut! Lorem ipsum dolor sit amet consectetur
-							adipisicing elit. Possimus asperiores voluptates, rerum quae
-							libero, porro quas aperiam nobis distinctio iusto at saepe. Sequi
-							pariatur veritatis minima placeat, soluta ut aut! Lorem ipsum
-							dolor sit amet consectetur adipisicing elit. Possimus asperiores
-							voluptates, rerum quae libero, porro quas aperiam nobis distinctio
-							iusto at saepe. Sequi pariatur veritatis minima placeat, soluta ut
-							aut! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Possimus asperiores voluptates, rerum quae libero, porro quas
-							aperiam nobis distinctio iusto at saepe. Sequi pariatur veritatis
-							minima placeat, soluta ut aut!
 						</p>
 					</div>
 				</div>
